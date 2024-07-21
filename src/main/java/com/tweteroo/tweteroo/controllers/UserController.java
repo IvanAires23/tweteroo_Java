@@ -1,5 +1,7 @@
 package com.tweteroo.tweteroo.controllers;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +25,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserModel> createUser(@RequestBody @Valid UserDTO body){
-       UserModel user = userService.save(body);
+    public ResponseEntity<Object> createUser(@RequestBody @Valid UserDTO body){
+       Optional<UserModel> user = userService.save(body);
+
+       if(!user.isPresent()){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Username já existe");
+    }
+
        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 }
