@@ -24,6 +24,7 @@ public class TweetModel {
         this.text = dto.getText();
     }
 
+    
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
